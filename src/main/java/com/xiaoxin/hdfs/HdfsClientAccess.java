@@ -1,4 +1,4 @@
-package com.xiaoxin.Action;
+package com.xiaoxin.hdfs;
 
 import java.net.URI;
 import java.util.Iterator;
@@ -18,10 +18,11 @@ import org.junit.Test;
  * 默认情况下，hdfs客户端api会从jvm中获取一个参数来作为自己的用户身份：-DHADOOP_USER_NAME=hadoop
  *
  * 也可以在构造客户端fs对象时，通过参数传递进去
- * @author
+ * @author 谢榕新
+ * @desc java增删改查HDFS的数据
  *
  */
-public class HdfsClientDemo {
+public class HdfsClientAccess {
     FileSystem fs = null;
     Configuration conf = null;
     @Before
@@ -40,15 +41,16 @@ public class HdfsClientDemo {
     public void testUpload() throws Exception {
 
         Thread.sleep(2000);
-        fs.copyFromLocalFile(new Path("d:/testjavahadoop.txt"), new Path("/testjavahadoop.txt.copy"));
+        fs.copyFromLocalFile(new Path("e:/testjavahadoop.txt"), new Path("/testjavahadoop.txt.copy"));
         fs.close();
     }
 
 
     @Test
+    //download有点问题
     public void testDownload() throws Exception {
 
-        fs.copyToLocalFile(new Path("/testjavahadoop.txt.copy"), new Path("d://"));
+        fs.copyToLocalFile(new Path("/testjavahadoop.txt.copy"), new Path("e://"));
         fs.close();
     }
 
@@ -98,11 +100,11 @@ public class HdfsClientDemo {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        conf.set("fs.defaultFS", "hdfs://master:9000");
+        conf.set("fs.defaultFS", "hdfs://hadoop1:9000");
         //拿到一个文件系统操作的客户端实例对象
-        FileSystem fs = FileSystem.get(conf);
-
-        fs.copyFromLocalFile(new Path("G:/access.log"), new Path("/access.log.copy"));
+        FileSystem fs = FileSystem.get(new URI("hdfs://192.168.223.131:9000"),conf,"root");
+        //从本地上传文件夹到hdfs
+        fs.copyFromLocalFile(new Path("E:\\test"), new Path("/aaa"));
         fs.close();
     }
 }
