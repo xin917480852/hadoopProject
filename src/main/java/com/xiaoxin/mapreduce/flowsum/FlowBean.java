@@ -65,4 +65,8 @@ public class FlowBean implements Writable {
         dFlow=dataInput.readLong();
         sumFlow = dataInput.readLong();
     }
+    //根据Key排序
+    public int compareTo(FlowBean o){
+        return sumFlow>o.getSumFlow()?-1:1;
+    }
 }

@@ -19,9 +19,7 @@ public class ProvincePartitioner extends Partitioner<Text, FlowBean>{
         proviceDict.put("138", 2);
         proviceDict.put("139", 3);
     }
-
-
-
+    
     @Override
     public int getPartition(Text key, FlowBean value, int numPartitions) {
         String prefix = key.toString().substring(0, 3);
